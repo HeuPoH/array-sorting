@@ -1,9 +1,9 @@
-import { getAlgorithmsFactory } from 'shared/sort-algorithms';
+import { getAlgorithmsFactory } from '@shared/sort-algorithms';
 import {
   createErrorMsg,
   createSuccessfullMsg,
   type WorkerCommands,
-} from 'shared/workers';
+} from '@shared/workers';
 
 import { createNoAlgorithmMsg, createStoppedMsg } from './common';
 import type { PayloadToWorker } from './types';

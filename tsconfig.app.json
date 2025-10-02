@@ -21,7 +21,13 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
+    "paths": {
+      "@app/*": ["./src/app/*"],
+      "@features/*": ["./src/features/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@pages/*": ["./src/pages/*"]
+    }
   },
   "include": ["src"]
 }

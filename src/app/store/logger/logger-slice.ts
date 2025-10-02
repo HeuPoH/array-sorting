@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit/react';
-import type { AppPayloadAction } from 'app/store/types';
+import type { AppPayloadAction } from '@app/store/types';
 import type { Log, State } from './types';
 import { createInfoLog } from './utils';
 

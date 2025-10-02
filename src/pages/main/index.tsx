@@ -1,6 +1,6 @@
-import { ArraySettings } from 'features/array-settings';
-import { Console } from 'features/console';
-import { ArraySorting } from 'features/array-sorting';
+import { ArraySettings } from '@features/array-settings';
+import { Console } from '@features/console';
+import { ArraySorting } from '@features/array-sorting';
 
 import './index.scss';
 

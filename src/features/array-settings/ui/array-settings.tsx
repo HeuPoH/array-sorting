@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { useAppDispatch } from 'app/store/hooks';
+import { useAppDispatch } from '@app/store/hooks';
 
-import { generateArray } from 'shared/lib';
-import { Card, FormFieldGroup, FormGroup, FormInput, FormLabel, PrimaryButton } from 'shared/ui';
-import { CardTitle } from 'shared/ui/card/card-title';
+import { generateArray } from '@shared/lib';
+import { Card, FormFieldGroup, FormGroup, FormInput, FormLabel, PrimaryButton } from '@shared/ui';
+import { CardTitle } from '@shared/ui/card/card-title';
 
 import { updateArray } from '../model/array-settings-slice';
 import { MAX_ARRAY_SIZE, MIN_ARRAY_SIZE } from '../model/constants';

@@ -1,4 +1,4 @@
-import { createErrorMsg, WorkerEventMessages } from 'shared/workers';
+import { createErrorMsg, WorkerEventMessages } from '@shared/workers';
 
 export function createNoAlgorithmMsg(algorithm: string) {
   return createErrorMsg(`Сортировка типа ${algorithm} не зарегистрирована`);

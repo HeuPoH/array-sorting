@@ -1,7 +1,7 @@
 import React from 'react';
-import type { IWorkersManager } from 'shared/workers';
-import type { IFactory } from 'shared/lib/factory/types';
-import type { AlgorithmFactoryItem } from 'shared/sort-algorithms/types';
+import type { IWorkersManager } from '@shared/workers';
+import type { IFactory } from '@shared/lib/factory/types';
+import type { AlgorithmFactoryItem } from '@shared/sort-algorithms/types';
 
 export type Services = {
   workerManager: IWorkersManager;

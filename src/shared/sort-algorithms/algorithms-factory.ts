@@ -1,5 +1,5 @@
-import type { IFactory } from 'shared/lib/factory/types';
-import { Factory } from 'shared/lib/factory/factory';
+import type { IFactory } from '@shared/lib/factory/types';
+import { Factory } from '@shared/lib/factory/factory';
 
 import { quickSort } from './quick-sort';
 import type { AlgorithmFactoryItem } from './types';

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit/react';
-import { addMetaData } from 'app/store/utils';
-import { createInfoLog } from 'app/store/logger/utils';
-import type { AppPayloadAction } from 'app/store/types';
+import { addMetaData } from '@app/store/utils';
+import { createInfoLog } from '@app/store/logger/utils';
+import type { AppPayloadAction } from '@app/store/types';
 
 import type { State } from '../model/types';
 import type { PayloadFromWorker } from '../model/worker/types';

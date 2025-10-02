@@ -1,9 +1,8 @@
-import { useAppSelector } from 'app/store/hooks';
+import { useAppSelector } from '@app/store/hooks';
 
-import { Card, CardTitle } from 'shared/ui';
-import { cn } from 'shared/lib/cn';
-
-import { ConsoleStatusBar } from './console-status-bar';
+import { ConsoleStatusBar } from '@features/console/ui/console-status-bar';
+import { Card, CardTitle } from '@shared/ui';
+import { cn } from '@shared/lib/cn';
 
 import './console.scss';
 

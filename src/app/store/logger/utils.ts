@@ -1,4 +1,4 @@
-import { getTime } from 'shared/lib/date';
+import { getTime } from '@shared/lib/date';
 import type { Log, LogType } from './types';
 
 export function createLog(msg: string, type: LogType): Log {

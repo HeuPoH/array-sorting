@@ -1,8 +1,11 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'app/store/hooks';
+import { useAppDispatch, useAppSelector } from '@app/store/hooks';
 
-import { useWorkersManager } from 'shared/lib';
-import type { CustomWorker } from 'shared/workers';
+import { updateSortedArray } from '@features/array-sorting/model/array-sorting-slice';
+import { PayloadFromWorker, PayloadToWorker } from '@features/array-sorting/model/worker/types';
+
+import { useWorkersManager } from '@shared/lib';
+import type { CustomWorker } from '@shared/workers';
 import {
   ApplyButton,
   Box,
@@ -13,11 +16,8 @@ import {
   FormSelect,
   DangerButton,
   FormFieldGroup
-} from 'shared/ui';
-import { useAlgorithmsFactory } from 'shared/lib/hooks/useAlgorithmFactory';
-
-import { updateSortedArray } from '../model/array-sorting-slice';
-import type { PayloadToWorker, PayloadFromWorker } from '../model/worker/types';
+} from '@shared/ui';
+import { useAlgorithmsFactory } from '@shared/lib/hooks/useAlgorithmFactory';
 
 const WORKER_URL = new URL('../model/worker/sort.worker.ts', import.meta.url);
 

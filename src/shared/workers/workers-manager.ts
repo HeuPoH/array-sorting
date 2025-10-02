@@ -1,5 +1,5 @@
-import type { Log } from 'app/store/logger/types';
-import { createErrorLog, createInfoLog } from 'app/store/logger/utils';
+import type { Log } from '@app/store/logger/types';
+import { createErrorLog, createInfoLog } from '@app/store/logger/utils';
 
 import { createStopCommand } from './common';
 import { CustomWorker } from './custom-worker';
