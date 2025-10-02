@@ -12,7 +12,7 @@ const slice = createSlice({
   initialState,
   reducers: {
     updateSortedArray: {
-      prepare: (payload: PayloadFromWorker['done']) => {
+      prepare: (payload: PayloadFromWorker['task-complete']) => {
         const logs = [
           createInfoLog('Сортировка завершена.'),
           createInfoLog(`Время сортировки: ${payload.time} мс`),
@@ -20,7 +20,7 @@ const slice = createSlice({
         ];
         return addMetaData({ payload }, { 'toConsole': logs });
       },
-      reducer: (state: State, action: AppPayloadAction<PayloadFromWorker['done']>) => {
+      reducer: (state: State, action: AppPayloadAction<PayloadFromWorker['task-complete']>) => {
         state.sortedArray = action.payload.array;
       }
     }

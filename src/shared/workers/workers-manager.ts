@@ -1,51 +1,37 @@
 import type { Log } from '@app/store/logger/types';
 import { createErrorLog, createInfoLog } from '@app/store/logger/utils';
 
-import { createStopCommand } from './common';
-import { CustomWorker } from './custom-worker';
-import type { WorkerEventPayload, CommandPayload } from './types';
+import { WorkerWrapper } from './worker-wrapper';
+import type { WorkerEventPayload, WorkerCommandPayload } from './types';
 
 export interface IWorkersManager {
   create<
-    T extends CommandPayload = CommandPayload,
-    F extends WorkerEventPayload = WorkerEventPayload
-  >(url: URL): CustomWorker<T, F>;
+    T extends WorkerCommandPayload = WorkerCommandPayload,
+    P extends WorkerEventPayload = WorkerEventPayload
+  >(worker: Worker): WorkerWrapper<T, P>;
 }
 
 type AddLogHandler = (logs: Log[]) => void;
 
 export class WorkersManager implements IWorkersManager {
+  private workerIdx = 0;
+
   constructor(private addLog: AddLogHandler) {}
+
   create<
-    T extends CommandPayload = CommandPayload,
-    F extends WorkerEventPayload = WorkerEventPayload
-  >(url: URL) {
-    const worker = new CustomWorker<T, F>(url);
-    this.addLog([createInfoLog('Worker запущен')]);
-    worker.addEventListener('done', () => this.handlerWorkerDone(worker));
-    worker.addEventListener('stopped', () => this.handlerWorkerStopped(worker));
-    worker.addEventListener('error', (e) => this.handlerWorkerError(worker, e));
-    return worker;
-  }
+    T extends WorkerCommandPayload = WorkerCommandPayload,
+    P extends WorkerEventPayload = WorkerEventPayload
+  >(worker: Worker) {
+    const workerWrapper = new WorkerWrapper<T, P>(worker);
+    const workerKey = `Worker #${this.workerIdx++}`;
 
-  private handlerWorkerDone<T extends CommandPayload, F extends WorkerEventPayload>(worker: CustomWorker<T, F>) {
-    worker.postMessage(createStopCommand(''));
-  }
+    this.addLog([createInfoLog(`${workerKey} запущен`)]);
+    workerWrapper.addEventListener('task-running', () => this.addLog([createInfoLog(`${workerKey} приступил к выполнению задачи`)]));
+    workerWrapper.addEventListener('task-complete', () =>  this.addLog([createInfoLog(`${workerKey} выполнил задачу`)]));
+    workerWrapper.addEventListener('task-error', (e) => this.addLog([createErrorLog(e.data.payload), createErrorLog('При выполнение задачи произошлка ошибка')]));
+    workerWrapper.addEventListener('worker-stopped', () => this.addLog([createInfoLog(`${workerKey} остановлен`)]));
+    workerWrapper.addEventListener('worker-terminated', () => this.addLog([createInfoLog(`${workerKey} закрыт`)]));
 
-  private handlerWorkerStopped<T extends CommandPayload, F extends WorkerEventPayload>(worker: CustomWorker<T, F>) {
-    this.addLog([createInfoLog('Worker остановлен')]);
-    this.closeWorker(worker);
-  }
-
-  private handlerWorkerError<
-    T extends CommandPayload,
-    F extends WorkerEventPayload
-  >(worker: CustomWorker<T, F>, e: MessageEvent) {
-    this.addLog([createErrorLog(e.data.payload), createErrorLog('Worker остановлен с ошибкой')]);
-    this.closeWorker(worker);
-  }
-
-  private closeWorker<T extends CommandPayload, F extends WorkerEventPayload>(worker: CustomWorker<T, F>) {
-    worker.terminate();
+    return workerWrapper;
   }
 }

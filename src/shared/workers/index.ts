@@ -1,4 +1,4 @@
 export { WorkersManager, type IWorkersManager } from './workers-manager';
-export type { WorkerEventMessages, WorkerCommands } from './types';
-export { CustomWorker } from './custom-worker';
-export { createErrorMsg, createSuccessfullMsg, createStartCommand, createStopCommand } from './common';
+export type { WorkerEventMessage, WorkerCommandMessage } from './types';
+export { WorkerWrapper } from './worker-wrapper';
+export { createCancelCommand, createExecuteCommand, createTaskCompleteEvent, createTaskErrorEvent } from './common';

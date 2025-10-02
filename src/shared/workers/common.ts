@@ -1,20 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { WorkerEventMessages, WorkerCommands } from './types';
 
-// WorkerIncomingMessages
-export function createStartCommand(payload: any): WorkerCommands {
-  return { type: 'start', payload };
-}
+export const createExecuteCommand = <T>(payload: T) => ({
+  type: 'execute',
+  payload
+});
 
-export function createStopCommand(payload: any): WorkerCommands {
-  return { type: 'stop', payload };
-}
+export const createCancelCommand = (payload: any) => ({
+  type: 'cancel',
+  payload
+});
 
-// WorkerOutgoingMessages
-export function createErrorMsg(payload: any): WorkerEventMessages {
-  return { type: 'error', payload };
-}
+export const createTaskCompleteEvent = (payload: any) => ({
+  type: 'task-complete',
+  payload
+});
 
-export function createSuccessfullMsg(payload: any): WorkerEventMessages {
-  return { type: 'done', payload };
-}
+export const createTaskErrorEvent = (payload: any) => ({
+  type: 'task-error',
+  payload
+});
+
+export const createWorkerTerminateEvent = (payload: any) => ({
+  type: 'worker-terminated',
+  payload
+});

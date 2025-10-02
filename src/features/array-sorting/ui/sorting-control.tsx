@@ -5,7 +5,7 @@ import { updateSortedArray } from '@features/array-sorting/model/array-sorting-s
 import { PayloadFromWorker, PayloadToWorker } from '@features/array-sorting/model/worker/types';
 
 import { useWorkersManager } from '@shared/lib';
-import type { CustomWorker } from '@shared/workers';
+import type { WorkerWrapper } from '@shared/workers';
 import {
   ApplyButton,
   Box,
@@ -19,28 +19,28 @@ import {
 } from '@shared/ui';
 import { useAlgorithmsFactory } from '@shared/lib/hooks/useAlgorithmFactory';
 
-const WORKER_URL = new URL('../model/worker/sort.worker.ts', import.meta.url);
+import SortingWorker from '@features/array-sorting/model/worker/sort.worker?worker';
 
 export const ArraySorting: React.FC = () => {
   const factory = useAlgorithmsFactory();
   const algorithms = factory.getAllRegistered().map(item => ({ label: item.label, value: item.type }));
   const [algorithm, setAlgorithm] = React.useState(algorithms[0]);
 
-  const workerRef = React.useRef<CustomWorker<PayloadToWorker, PayloadFromWorker> | null>(null);
+  const workerRef = React.useRef<WorkerWrapper<PayloadToWorker, PayloadFromWorker> | null>(null);
   const workerManager = useWorkersManager();
 
   const dispatch = useAppDispatch();
   const rawArray = useAppSelector(state => state.arraySettings.array);
 
   const start = () => {
-    const worker = workerRef.current = workerManager.create<PayloadToWorker, PayloadFromWorker>(WORKER_URL);
-    worker.addEventListener('done', (event) => {
+    const worker = workerRef.current = workerManager.create<PayloadToWorker, PayloadFromWorker>(new SortingWorker());
+    worker.addEventListener('task-complete', (event) => {
       const data = event.data.payload;
       dispatch(updateSortedArray(data));
     });
     worker.start({ algorithm: algorithm.value, array: rawArray });
   };
-  const stop = () => workerRef.current?.stop('');
+  const stop = () => workerRef.current?.stop();
 
   return (
     <Card>

@@ -1,9 +1,9 @@
-import { createErrorMsg, WorkerEventMessages } from '@shared/workers';
+import { createTaskErrorEvent, WorkerEventMessage } from '@shared/workers';
 
 export function createNoAlgorithmMsg(algorithm: string) {
-  return createErrorMsg(`Сортировка типа ${algorithm} не зарегистрирована`);
+  return createTaskErrorEvent(`Сортировка типа ${algorithm} не зарегистрирована`);
 }
 
-export function createStoppedMsg(): WorkerEventMessages {
-  return { type: 'stopped', payload: '' };
+export function createStoppedMsg(): WorkerEventMessage['worker-stopped'] {
+  return { type: 'worker-stopped', payload: '' };
 }
