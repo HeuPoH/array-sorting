@@ -14,8 +14,6 @@ export interface IWorkersManager {
 type AddLogHandler = (logs: Log[]) => void;
 
 export class WorkersManager implements IWorkersManager {
-  private workerIdx = 0;
-
   constructor(private addLog: AddLogHandler) {}
 
   create<
@@ -23,7 +21,7 @@ export class WorkersManager implements IWorkersManager {
     P extends WorkerEventPayload = WorkerEventPayload
   >(worker: Worker) {
     const workerWrapper = new WorkerWrapper<T, P>(worker);
-    const workerKey = `Worker #${this.workerIdx++}`;
+    const workerKey = 'Worker';
 
     this.addLog([createInfoLog(`${workerKey} запущен`)]);
     workerWrapper.addEventListener('task-running', () => this.addLog([createInfoLog(`${workerKey} приступил к выполнению задачи`)]));
