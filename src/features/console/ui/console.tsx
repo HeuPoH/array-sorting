@@ -8,11 +8,11 @@ import './console.scss';
 
 export const Console: React.FC = () => {
   const logs = useAppSelector(state => state.logger.logs);
-  const jsxElements = logs.map(log => {
+  const jsxElements = logs.map((log, idx) => {
     const line = log.msg ? `> [${log.time}] ${log.msg}` : '>';
     const className = cn('console__line', `console__line--${log.type}`);
     return (
-      <div key={log.time} className={className}>
+      <div key={`${log.time}-${idx}`} className={className}>
         {line}
       </div>
     );
