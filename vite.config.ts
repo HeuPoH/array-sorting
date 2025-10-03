@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './',
   plugins: [react(), tsconfigPaths()],
   resolve: {
     alias: {
@@ -19,7 +20,7 @@ export default defineConfig({
       external: []
     }
   },
-  
+
   build: {
     rollupOptions: {
       external: []
