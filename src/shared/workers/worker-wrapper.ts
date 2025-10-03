@@ -19,14 +19,21 @@ export class WorkerWrapper<
   private listeners = new Map<WorkerEventTypes, Set<EventListener<WorkerEventTypes, P>>>();
   private status: 'idle' | 'running' | 'stopping' | 'complete' | 'error' | 'terminated' = 'idle';
 
-  constructor(private worker: Worker) {
+  constructor(private worker: Worker, autoStop = true) {
     worker.addEventListener('message', this.onEventMessageListener);
     this.addEventListener('task-running', () => this.status = 'running');
-    this.addEventListener('task-complete', () => this.status = 'complete');
-    this.addEventListener('task-error', () => this.status = 'error');
-    this.addEventListener('worker-stopped', () => this.status = 'stopping');
-    this.addEventListener('worker-terminated', () => {
-      this.status = 'terminated';
+    this.addEventListener('task-complete', () => {
+      this.status = 'complete';
+      if (autoStop) {
+        this.stop('Автоостановка после завершения задачи');
+      }
+    });
+    this.addEventListener('task-error', () => {
+      this.status = 'error';
+      this.stop('Остановка в связи с ошибкой');
+    });
+    this.addEventListener('worker-stopped', () => {
+      this.status = 'stopping';
       this.terminate();
     });
   }
@@ -45,8 +52,8 @@ export class WorkerWrapper<
   stop(payload: T['cancel']) {
     this.checkNotTerminated();
 
-    if (this.status !== 'running') {
-      console.warn('Worker is not running');
+    if (this.status === 'stopping') {
+      console.warn('Worker is already stopped');
       return;
     }
     
